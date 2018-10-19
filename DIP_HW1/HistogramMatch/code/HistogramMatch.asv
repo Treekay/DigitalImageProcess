@@ -16,40 +16,45 @@ matlabImg=histeq(testImg,targetHist);
 %求给定图像的直方图均衡
 [counts,values1]=imhist(testImg);
 [M1,N1]=size(testImg);
-H=zeros(M1,N1);
-S=zeros(length(values1),1);
-CDF=0;
+H=zeros(M1,N1);%过程矩阵
+S=zeros(length(values1),1);%直方图均衡化函数
+CDF=0;%累积分布函数
 for i=1:length(values1)
-    CDF=CDF+counts(i);
-    P=find(testImg==values1(i));
-    S(i)=round((length(values1)-1)*CDF/(M1*N1));
+    CDF=CDF+counts(i);%求取当前灰度值的累积分布频数
+    S(i)=round((length(values)-1)*CDF/(M*N));%求出每个离散点的函数值
+end
+%对原图进行直方图均衡化
+for i=1:length(values)
+    P=find(originImg==values(i));%获取该灰度值的所有像素
     H(P)=S(i);
 end
-testImg=uint8(H);
+%用均衡化之后的直方图生成图片
+testImg=uint8(H)
 
 %求目标图像的直方图均衡G(z)
 [counts2,values2]=imhist(goalImg);
 [M2,N2]=size(goalImg);
-G=zeros(length(values2),1);
+G=zeros(length(values2),1);%直方图均衡化函数
 CDF=0;
 for i=1:length(values2)
     CDF=CDF+counts2(i);
-    G(i)=(length(values2)-1)*CDF/(M2*N2);
+    G(i)=round((length(values2)-1)*CDF/(M2*N2));
 end
 
 %将S上的灰度值映射到 G(z) 上对应的灰度值,并将给定图片对应像素的灰度值修改
-I=zeros(M1,N1);
+I=zeros(M1,N1);%过程矩阵
 for i=1:length(S)
-    k=256;  
+    k=256;%要大于最大的函数差值
     val=0;
     for j=1:length(G)
+        %找到最接近的映射值
         if abs(S(i)-G(j)) < k
             k=abs(S(i)-G(j));
-            val=j-1;
+            val=j-1;%下标是1-256, 灰度值是0-255, 所以要减一
         end
     end
-    match=find(testImg==S(i));
-    I(match)=val;
+    match=find(testImg==S(i));%获取均衡化给定图像中相同灰度值的像素
+    I(match)=val;%将相关像素的灰度值映射到目标图像上的值
 end
 matchImg=uint8(I);
 

@@ -17,18 +17,19 @@ matlabImg=histeq(testImg,targetHist);
 [counts,values1]=imhist(testImg);
 [M1,N1]=size(testImg);
 H=zeros(M1,N1);%过程矩阵
-S=1:length(values);%直方图均衡化函数
+S=zeros(length(values1),1);%直方图均衡化函数
 CDF=0;%累积分布函数
-for i=1:length(values)
+for i=1:length(values1)
     CDF=CDF+counts(i);%求取当前灰度值的累积分布频数
-    S(i)=round((length(values)-1)*CDF/(M*N));%求出每个离散点的函数值
+    S(i)=round((length(values1)-1)*CDF/(M1*N1));%求出每个离散点的函数值
 end
 %对原图进行直方图均衡化
-for i=1:length(values)
-    P=find(originImg==values(i));%获取该灰度值的所有像素
+for i=1:length(values1)
+    P=find(testImg==values1(i));%获取该灰度值的所有像素
     H(P)=S(i);
 end
 %用均衡化之后的直方图生成图片
+testImg=uint8(H);
 
 %求目标图像的直方图均衡G(z)
 [counts2,values2]=imhist(goalImg);
