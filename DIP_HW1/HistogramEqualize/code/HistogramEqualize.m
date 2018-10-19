@@ -12,16 +12,21 @@ subplot(2,3,3),imshow(matlabHisteqImg);title('matlab histeq img');%matlab histeq
 subplot(2,3,6),imhist(matlabHisteqImg);title('matlab histogram');%matlab histeq()函数直方图均衡化的直方图
 
 %自己实现的直方图均衡化处理
-%用imhist函数对图像直方图统计
 [counts,values]=imhist(originImg);%values是灰度值向量, counts是每个灰度值对应的频数(像素的个数)
 [M,N]=size(originImg);%M是原图像的行数, N是原图像的列数
-%直方图均衡化过程
-H=zeros(M,N);
-accumulate=0;%初始化累积分布频数
+
+%求直方图均衡化函数
+H=zeros(M,N);%过程矩阵
+T=1:length(values);%直方图均衡化函数
+CDF=0;%累积分布函数
+for i=1:length(values)
+    CDF=CDF+counts(i);%求取当前灰度值的累积分布频数
+    T(i)=(length(values)-1)*CDF/(M*N);%求出每个离散点的函数值
+end
+%对原图进行直方图均衡化
 for i=1:length(values)
     P=find(originImg==values(i));%获取该灰度值的所有像素
-    accumulate=accumulate+counts(i);%求取当前灰度值的累积分布频数
-    H(P)=(length(values)-1)*accumulate/(M*N);%直方图均衡计算公式
+    H(P)=T(i);
 end
 %用均衡化之后的直方图生成图片
 myHisteqImg=uint8(H);
