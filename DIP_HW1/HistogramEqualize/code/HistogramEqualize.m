@@ -1,7 +1,7 @@
 %读入图片
 originImg=imread('..\test_img\river.jpg');
 %输出处理前的图片和直方图
-figure
+figure;
 subplot(2,3,1),imshow(originImg);title('origin img');%原图
 subplot(2,3,4),imhist(originImg);title('origin histogram');%原图的直方图
 

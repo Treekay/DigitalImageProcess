@@ -30,7 +30,7 @@ G = im2uint8(mat2gray(G));
 figure, imshow(G);
 imwrite(G, './res/CorrelationImg.jpg'); % 保存图像
 % 列出在图像中检测到的所有目标的(x, y)坐标
-[y, x] = find(G == max(G(:))); %  返回的坐标是(row, col), 所以这里是[y, x]
+[y, x] = find(G > 0.9 * max(G(:))); %  返回的坐标是(row, col), 所以这里是[y, x]
 file = fopen('./res/target.txt', 'w');
 for i = 1:length(x)
     fprintf(file, '(%d, %d)\n', x(i), y(i));
