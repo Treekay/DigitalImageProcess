@@ -16,16 +16,15 @@ G = zeros(m, n);
 for i = 1 : length(D0)
     % 生成巴特沃斯滤波器
     G = fourierImg;
-    ButterworthFilter = 1./(1 + (sqrt((M - m/2).^2 + (N - n/2).^2)./D0(i)).^2);
+    ButterworthFilter = 1./(1 + (sqrt((M - m/2).^2 + (N - n/2).^2) ./D0(i)).^(2 * r));
     % 巴特沃斯滤波
     G = G .* ButterworthFilter;
-    % 反DFT变换并取实部
+    % DFT 反变换并取实部
     G = real(ifft2(G));
     % 反中心变换
     G = G.* (-1).^(M + N);
-    % figure;
-    subplot(2, 2, i);
+    % 处理得到的图像
+    figure;
     imshow(G, []);title(sprintf('D0 = %d', D0(i)));
-    % saveas(gcf, sprintf('./res/Butterworth_%d.jpg', D0(i)));
+    saveas(gcf, sprintf('./res/Butterworth_%d.jpg', D0(i)));
 end
- saveas(gcf, './res/Butterworth.jpg');
