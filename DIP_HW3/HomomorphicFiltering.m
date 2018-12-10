@@ -32,6 +32,6 @@ for i = 1 : length(D0)
     % figure;
     subplot(2, 3, i);
     imshow(G);title(sprintf('D0 = %d', D0(i)));
-    % saveas(gcf, sprintf('./res/Homomorphic_%d.jpg', D0(i)));
+    % saveas(gcf, sprintf('./res/res2/Homomorphic_D0=%d.jpg', D0(i)));
 end
-saveas(gcf, './res/Homorphic.jpg');
+saveas(gcf, './res/res2/HomorphicComparison.jpg');

@@ -26,6 +26,6 @@ for i = 1 : length(D0)
     % figure;
     subplot(2, 2, i);
     imshow(G, []);title(sprintf('D0 = %d', D0(i)));
-    % saveas(gcf, sprintf('./res/Butterworth_%d.jpg', D0(i)));
+    % saveas(gcf, sprintf('./res/res1/Butterworth_D0=%d.jpg', D0(i)));
 end
- saveas(gcf, './res/Butterworth.jpg');
+ saveas(gcf, './res/res1/ButterworthComparison.jpg');
