@@ -12,7 +12,7 @@ function [blurredImg, H] = BlurFilter(sourceImg)
     % 傅里叶变换
     F = fft2(centreImg);
 
-    % 生成 blurring filter
+    % 构造退化函数
     T = 1.0;
     a = 0.1;
     b = 0.1;
@@ -20,7 +20,7 @@ function [blurredImg, H] = BlurFilter(sourceImg)
     H = T ./ (pi .* k) .* sin(pi .* k) .* exp((-1i * pi) .* k);
     H(k == 0) = T;
 
-    % 图像退化
+    % 计算退化图像
     G = H .* F;
 
     % 反DFT变换并取实部

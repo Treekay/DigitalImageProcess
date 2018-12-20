@@ -10,7 +10,7 @@ function [inverseBlur, inverseNoise] = InverseFilter(blurredImg, noiseImg, H)
     fourierBlur = fft2(centreBlur);
     % 逆滤波
     inverseBlur = fourierBlur ./ H;
-    inverseBlur(abs(H)<0.001 )=0;
+    inverseBlur(abs(H) < 0.001)=0;
     % 反DFT并取实部
     inverseBlur = real(ifft2(inverseBlur)); 
     % 反中心化
