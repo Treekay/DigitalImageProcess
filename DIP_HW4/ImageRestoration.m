@@ -2,7 +2,7 @@
 addpath('func');
 sourceImg = imread('src/book_cover.jpg'); % 读取原图像
 [blurredImg, H] = BlurFilter(sourceImg);  % 运动模糊
-[noiseImg, ] = GaussianNoise(blurredImg);     % 高斯噪声
+[noiseImg] = GaussianNoise(blurredImg);     % 高斯噪声
 [inverseBlur, inverseNoise] = InverseFilter(blurredImg, noiseImg, H);   %逆滤波
 [wienerImg] = WienerFilter(noiseImg, H); % 维纳滤波
 
